@@ -588,3 +588,9 @@
     </div>
   </section>
 </template>
+
+<script lang="ts" setup>
+import { getProductsAction } from '@/modules/products/actions';
+
+getProductsAction();
+</script>

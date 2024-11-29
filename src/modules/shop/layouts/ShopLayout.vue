@@ -5,6 +5,7 @@
   <TopMenu />
 
   <!-- Router view -->
+  <router-view />
 
   <!-- Footer -->
   <CustomFooter />
