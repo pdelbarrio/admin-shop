@@ -4,6 +4,7 @@
   >
     <a href="#">
       <div class="relative flex items-end overflow-hidden rounded-xl">
+        <!-- No cargan imagenes del backend, se pone imagen fija -->
         <img
           src="https://res.cloudinary.com/getoutbcn/image/upload/v1732977961/samples/ecommerce/camiseta_ngmh6h.jpg"
           :alt="product.title"
