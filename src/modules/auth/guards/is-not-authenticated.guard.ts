@@ -12,7 +12,7 @@ const isNotAuthenticatedGuard = async (
   await authStore.checkAuthStatus();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  authStore.authStatus === AuthStatus.Unauthenticated ? next({ name: 'home' }) : next();
+  authStore.authStatus === AuthStatus.Authenticated ? next({ name: 'home' }) : next();
 };
 
 export default isNotAuthenticatedGuard;

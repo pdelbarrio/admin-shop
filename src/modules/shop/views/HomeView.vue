@@ -112,7 +112,7 @@ const route = useRoute();
 const page = ref(Number(route.query.page || 1));
 const queryClient = useQueryClient();
 
-console.log({ page });
+// console.log({ page });
 
 const { data: products = [] } = useQuery({
   queryKey: ['products', { page: page }],
