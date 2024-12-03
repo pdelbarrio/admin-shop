@@ -1,6 +1,5 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 import { useAuthStore } from '../stores/auth.store';
-import { AuthStatus } from '../interfaces';
 
 const isAdminGuard = async (
   to: RouteLocationNormalized,
@@ -12,7 +11,7 @@ const isAdminGuard = async (
   await authStore.checkAuthStatus();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  authStore.authStatus === AuthStatus.Unauthenticated ? next({ name: 'home' }) : next();
+  authStore.isAdmin ? next() : next({ name: 'home' });
 };
 
 export default isAdminGuard;
