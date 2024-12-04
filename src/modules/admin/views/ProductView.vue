@@ -1,10 +1,12 @@
 <template>
   <div class="bg-white px-5 py-2 rounded">
-    <h1 class="text-3xl">Producto: <small class="text-blue-500">nombre</small></h1>
+    <h1 class="text-3xl">
+      Producto: <small class="text-blue-500">{{ title }}</small>
+    </h1>
     <hr class="my-4" />
   </div>
 
-  <form class="grid grid-cols-1 sm:grid-cols-2 bg-white px-5 gap-5">
+  <form @submit="onSubmit" class="grid grid-cols-1 sm:grid-cols-2 bg-white px-5 gap-5">
     <div class="first-col">
       <!-- Primera parte del formulario -->
       <div class="mb-4">
@@ -32,19 +34,20 @@
 
       <div class="mb-4">
         <label for="description" class="form-label">Descripción</label>
-        <textarea
-          id="description"
-          class="shadow h-32 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        ></textarea>
+        <CustomTextArea
+          v-model="description"
+          v-bind="descriptionAttrs"
+          :error="errors.description"
+        />
       </div>
 
       <div class="flex flex-row gap-3">
-        <div class="mb-4">
+        <div class="mb-4 flex-1">
           <label for="price" class="form-label">Precio</label>
           <CustomInput v-model.number="price" v-bind="priceAttrs" :error="errors.price" />
         </div>
 
-        <div class="mb-4">
+        <div class="mb-4 flex-1">
           <label for="stock" class="form-label">Inventario</label>
           <CustomInput v-model.number="stock" v-bind="stockAttrs" :error="errors.stock" />
         </div>
@@ -56,8 +59,15 @@
           <button
             v-for="size of allSizes"
             :key="size"
+            @click="toggleSize(size)"
             type="button"
-            class="bg-blue-100 p-2 rounded w-14 mr-2 flex-1"
+            :class="[
+              'p-2 rounded w-14 mr-2 flex-1',
+              {
+                'bg-blue-500 text-white': hasSize(size),
+                'bg-blue-100': !hasSize(size),
+              },
+            ]"
           >
             {{ size }}
           </button>
@@ -70,12 +80,8 @@
       <label for="stock" class="form-label">Imágenes</label>
       <!-- Row with scrollable horizontal -->
       <div class="flex p-2 overflow-x-auto space-x-8 w-full h-[265px] bg-gray-200 rounded">
-        <div class="flex-shrink-0">
-          <img src="https://via.placeholder.com/250" alt="imagen" class="w-[250px] h-[250px]" />
-        </div>
-
-        <div class="flex-shrink-0">
-          <img src="https://via.placeholder.com/250" alt="imagen" class="w-[250px] h-[250px]" />
+        <div v-for="image of images" :key="image.value" class="flex-shrink-0">
+          <img :src="image.value" :alt="title" class="w-[250px] h-[250px] rounded" />
         </div>
       </div>
       <!-- Upload image -->
@@ -87,12 +93,13 @@
 
       <div class="mb-4">
         <label for="stock" class="form-label">Género</label>
-        <select class="form-control">
+        <select v-model="gender" v-bind="genderAttrs" class="form-control">
           <option value="">Seleccione</option>
           <option value="kid">Niño</option>
           <option value="women">Mujer</option>
           <option value="men">Hombre</option>
         </select>
+        <span class="text-red-400" v-if="errors.gender">{{ errors.gender }}</span>
       </div>
 
       <!-- Botón para guardar -->
@@ -108,12 +115,15 @@
   </form>
 
   <div class="grid grid-cols-2 mt-2">
-    <div class="bg-blue-200 p-2">
-      {{ values }}
-    </div>
-    <div class="bg-red-200 p-2">
-      {{ errors }}
-    </div>
+    <pre class="bg-blue-200 p-2">
+      {{ JSON.stringify(values, null, 2) }}
+    </pre>
+    <pre class="bg-red-200 p-2">
+      {{ JSON.stringify(errors, null, 2) }}
+    </pre>
+    <pre class="bg-green-200 p-2 col-span-2">
+      {{ JSON.stringify(meta, null, 2) }}
+    </pre>
   </div>
 </template>
 
