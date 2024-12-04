@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { getProductById } from '@/modules/products/actions';
 
 const validationSchema = yup.object({
-  title: yup.string().required(),
+  title: yup.string().required().min(3),
   slug: yup.string().required(),
   description: yup.string().required(),
   price: yup.number().required(),
