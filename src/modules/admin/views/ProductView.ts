@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { getProductById } from '@/modules/products/actions';
+import CustomInput from '@/modules/common/components/CustomInput.vue';
 
 const validationSchema = yup.object({
   title: yup.string().required().min(3),
@@ -15,6 +16,7 @@ const validationSchema = yup.object({
 });
 
 export default defineComponent({
+  components: { CustomInput },
   props: {
     productId: {
       type: String,
