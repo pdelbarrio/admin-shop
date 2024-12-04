@@ -55,31 +55,19 @@
 </template>
 
 <script lang="ts" setup>
-import { useRoute } from 'vue-router';
-import { ref, watch, watchEffect } from 'vue';
+import { watchEffect } from 'vue';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { getProductsAction } from '@/modules/products/actions';
 import ButtonPagination from '@/modules/common/components/ButtonPagination.vue';
+import { usePagination } from '@/modules/common/composables/usePagination';
 
-const route = useRoute();
-const page = ref(Number(route.query.page || 1));
 const queryClient = useQueryClient();
-
-// console.log({ page });
+const { page } = usePagination();
 
 const { data: products = [] } = useQuery({
   queryKey: ['products', { page: page }],
   queryFn: () => getProductsAction(page.value),
 });
-
-watch(
-  () => route.query.page,
-  (newPage) => {
-    page.value = Number(newPage || 1);
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  },
-);
 
 watchEffect(() => {
   //Para precargar la siguiente pagina
